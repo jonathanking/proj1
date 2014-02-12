@@ -58,7 +58,7 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
 
     for (int p = 0; p < temp_size; p++) { // this loop assumes both images are square, though this will not be true for cases other than the extra credit
         char a_val = image[p];
-        char b_val = image[p];
+        char b_val = template[p];
         e_distance += (a_val - b_val) * (a_val - b_val);
     }
     return e_distance;
