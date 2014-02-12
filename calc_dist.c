@@ -41,5 +41,7 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
         unsigned char *template, int t_width) {
     unsigned int min_dist = UINT_MAX;
     /* YOUR CODE HERE */
+    //implement Euclidean distance formula, obtain repsective pixel values for each
+    // ex (0,0) a vs (0,0)b ---> (0,0)a - (0,0)b
     return min_dist;
 }   
