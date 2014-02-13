@@ -107,6 +107,7 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
             min_dist = distanceArr[r];
         }
     }
+    //murrrr
     //still must do flipz and translations.
     return min_dist;
 }
