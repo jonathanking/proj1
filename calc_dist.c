@@ -89,7 +89,7 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
     distanceArr[0] = e_distance;
     e_distance = 0;
     //checks rotation each rotation ccw.
-    for (int s = 0; s < 3; s++) {
+    for (int s = 1; s < 4; s++) {
         rotate_ccw_90(template, t_width);
         for (int q = 0; q < temp_size; q++) {
             char a_val = image[q];
