@@ -89,17 +89,18 @@ void transpose(unsigned char *arr, int width)
 // }
 
 /** Returns the minimum value in the array ARR of size SIZE. */
-int min(int *arr, int size) {
+int min(int *arr, int size)
+{
     int min_val = UINT_MAX;
-    for(int i = 0; i < size; i ++){
-        if(arr[i] < min_val){
+    for (int i = 0; i < size; i ++) {
+        if (arr[i] < min_val) {
             min_val = arr[i];
         }
     }
     return min_val;
 }
 
-/** Computes the simplest cast of the Euclidean distance between TEMPLATE and IMAGE.
+/** Computes the simplest case of the Euclidean distance between TEMPLATE and IMAGE.
   * Will be used to compare other transformed images to templates.
   * Assumes both images are square. */
 int simple_euclidean_dist(unsigned char *image, unsigned char *template, int width)
@@ -146,37 +147,43 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
 {
     unsigned int min_dist = UINT_MAX;
     int temp_size = t_width * t_width;
-    static int ARRAYSIZE = 10;
     //inits an array of max values supposed to be the size of things tested.;
+    static int ARRAYSIZE = 10;
     unsigned int distanceArr[ARRAYSIZE];
     for (int i = 0; i < 10; i++) {
         distanceArr[i] = UINT_MAX;
     }
     int index = 0;
     int e_distance = 0;
-    // this function and assignment assumes both images are square and of the same size. checks the basic
-    // case. non-translated
-    distanceArr[index] = simple_euclidean_dist(image, template, t_width);
-    index++;
-    //checks rotation each rotation ccw.
-    for (; index < 4; index++) {
-        rotate_ccw_90(template, t_width);
-        for (int q = 0; q < temp_size; q++) {
-            char a_val = image[q];
-            char b_val = template[q];
-            e_distance += (a_val - b_val) * (a_val - b_val);
-        }
-        distanceArr[index] = e_distance;
-        e_distance = 0;
-    }
-    //back to normal orientation
-    rotate_ccw_90(template, t_width);
-    // add the euclidean distance acheived from flipping template and applying to image
-    distanceArr[index] = flip_horizontal_dist(template, image, t_width);
-    index++;
-    distanceArr[index] = flip_vertical_dist(template, image, t_width);
-    index++;
-
+    int excess_x = i_width - t_width;
+    int excess_y = i_height - t_width;
+    // // These loops of 'i' and 'j' will cycle through all pixels
+    // for (int i = 0; i < excess_x; i++) {
+    //     for (int j = 0; j < excess_y; j++) {
+            // this function and assignment assumes both images are square and of the same size. checks the basic
+            // case. non-translated
+            distanceArr[index] = simple_euclidean_dist(image, template, t_width);
+            index++;
+            //checks rotation each rotation ccw.
+            for (; index < 4; index++) {
+                rotate_ccw_90(template, t_width);
+                for (int q = 0; q < temp_size; q++) {
+                    char a_val = image[q];
+                    char b_val = template[q];
+                    e_distance += (a_val - b_val) * (a_val - b_val);
+                }
+                distanceArr[index] = e_distance;
+                e_distance = 0;
+            }
+            //back to normal orientation
+            rotate_ccw_90(template, t_width);
+            // add the euclidean distance acheived from flipping template and applying to image
+            distanceArr[index] = flip_horizontal_dist(template, image, t_width);
+            index++;
+            distanceArr[index] = flip_vertical_dist(template, image, t_width);
+            index++;
+    //     }
+    // }
     //looks for the minimum, it doesn't seem like the function i made works though
     int minimum = min(distanceArr, ARRAYSIZE);
     for (int r = 0; r < 10; r++) {
