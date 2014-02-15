@@ -200,6 +200,10 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
             //back to normal orientation
             rotate_ccw_90(template, t_width);
             // add the euclidean distance acheived from flipping template and applying to image
+            // flip_horizontal(template, t_width);
+            // distanceArr[index] = complex_euclidean_dist(image, template, t_width, offset_x, offset_y, i_width);
+            // index++;
+            // flip_horizontal(template, t_width);
             // int horflipdist = flip_horizontal_dist(image, template, t_width, offset_x, offset_y, i_width);
             // distanceArr[index] = flip_horizontal_dist(image, template, t_width, offset_x, offset_y, i_width);
             // index++;
