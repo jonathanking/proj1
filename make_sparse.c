@@ -94,21 +94,16 @@ Row *dense_to_sparse(unsigned char *dense_matrix, int width, int height) {
 /* Frees all memory associated with SPARSE. SPARSE may be NULL. */
 void free_sparse(Row *sparse) {
     Row *currRow = sparse;
-    Row *nextRow = sparse->next;
     Elem *currElem = currRow->elems;
-    Elem *nextElem = currElem->next;
     while (currRow != NULL) {
         while (currElem != NULL) {
-            free(currElem);
-            currElem = nextElem;
-            if (nextElem != NULL) {
-                nextElem = currElem->next;
-            }
+            Elem *etemp = currElem;
+            currElem = currElem->next;
+            free(etemp);
         }
-        free(currRow);
-        if (nextRow != NULL) {
-            nextRow = currRow->next;
-        }
+        Row *rtemp = currRow;
+        currRow = currRow->next;
+        free(rtemp);
     }
 }
 
