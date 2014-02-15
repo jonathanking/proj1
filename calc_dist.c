@@ -185,14 +185,14 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
             // add the euclidean distance acheived from flipping template and applying to image
             distanceArr[index] = flip_horizontal_dist(image, template, t_width, offset_x, offset_y, i_width);
             index++;
-            // distanceArr[index] = flip_vertical_dist(image, template, t_width, offset_x, offset_y, i_width);
-            // index++; 
+            distanceArr[index] = flip_vertical_dist(image, template, t_width, offset_x, offset_y, i_width);
+            index++; 
             // may have something to do with the fact that flip and rotate only work for square images
         }
     }
     //looks for the minimum, it doesn't seem like the function i made works though
     // int minimum = min(distanceArr, ARRAYSIZE);
-    for (int r = 0; r < 10; r++) {
+    for (int r = 0; r < ARRAYSIZE; r++) {
         if (distanceArr[r] < min_dist) {
             min_dist = distanceArr[r];
         }
