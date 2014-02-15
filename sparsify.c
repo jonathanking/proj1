@@ -53,6 +53,7 @@ int main(int argc, char **argv) {
         sparse_matrix = dense_to_sparse(img.data, img.width, img.height);
         test_sparse(argv[1], sparse_matrix);
         free_sparse(sparse_matrix);
+		free(img.data);
     }
     return 0;
 }
