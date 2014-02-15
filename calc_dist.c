@@ -166,16 +166,16 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
 {
     unsigned int min_dist = UINT_MAX;
     int temp_size = t_width * t_width;
-    //inits an array of max values supposed to be the size of things tested.;
-    int ARRAYSIZE = (i_width * i_height) + 8;
-    unsigned int distanceArr[ARRAYSIZE];
-    for (int i = 0; i < ARRAYSIZE; i++) {
-        distanceArr[i] = UINT_MAX;
-    }
     int index = 0;
     int e_distance = 0;
     int excess_x = i_width - t_width;
     int excess_y = i_height - t_width;
+    //inits an array of max values supposed to be the size of things tested.;
+    int ARRAYSIZE = (excess_y * excess_x) * 8;
+    unsigned int distanceArr[ARRAYSIZE];
+    for (int i = 0; i < ARRAYSIZE; i++) {
+        distanceArr[i] = UINT_MAX;
+    }
     // These loops of 'i' and 'j' will cycle through all pixels
     for (int i = 0; i <= excess_x; i++) {
         int offset_x = i; /*i * i_width;*/
@@ -213,7 +213,7 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
         }
     }
     //looks for the minimum, it doesn't seem like the function i made works though
-    int minimum = min(distanceArr, ARRAYSIZE);
+    // int minimum = min(distanceArr, ARRAYSIZE);
     for (int r = 0; r < 10; r++) {
         if (distanceArr[r] < min_dist) {
             min_dist = distanceArr[r];
