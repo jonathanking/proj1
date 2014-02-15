@@ -30,17 +30,14 @@ void test_basic() {
 
     sparse_matrix = dense_to_sparse(small, 3, 3);
     test_sparse("small", sparse_matrix);
-    print_sparse(sparse_matrix);
     free_sparse(sparse_matrix);
 
     sparse_matrix = dense_to_sparse(empty, 3, 3);
     test_sparse("empty", sparse_matrix);
-    print_sparse(sparse_matrix);
     free_sparse(sparse_matrix);
 
     sparse_matrix = dense_to_sparse(tiny, 1, 1);
     test_sparse("tiny", sparse_matrix);
-    print_sparse(sparse_matrix);
     free_sparse(sparse_matrix);
 }
 
@@ -56,6 +53,7 @@ int main(int argc, char **argv) {
         sparse_matrix = dense_to_sparse(img.data, img.width, img.height);
         test_sparse(argv[1], sparse_matrix);
         free_sparse(sparse_matrix);
+		free(img.data);
     }
     return 0;
 }
