@@ -55,8 +55,10 @@ Elem *elem_new(int colnum, unsigned char val) {
 Row *dense_to_sparse(unsigned char *dense_matrix, int width, int height) {
     /* YOUR CODE HERE */
     int hasElem, initR, initE;
-    hasElem = initR = initE = 0;
-    Row *initRow, *lastRow;
+    hasElem = 0;
+    initR = initE = 1;
+    Row *initRow = NULL;
+    Row *lastRow;
     Elem *initElem, *lastElem;
     //start with the height
     for (int y = 0; y < height; y++) {
@@ -68,24 +70,32 @@ Row *dense_to_sparse(unsigned char *dense_matrix, int width, int height) {
         }
         //if this row has elements, make a new row
         if (hasElem) {
-            if (initR == 0) {
+            if (initR) {
                 initRow = row_new(y);
                 lastRow = initRow;
+                initR = 0;
             } else {
-                lastRow->next = row_new(y);
+                Row *newRow = row_new(y);
+                lastRow->next = newRow;
+                lastRow = newRow;
             }
             //make the elem nodes for that row
             for (int x = 0; x < width; x++) {
                 if (dense_matrix[(y * height) + x] != 255) {
-                    if (initE == 0) {
-                        initElem =
-                            elem_new(x, dense_matrix[(y * height) + x]);
-                        initElem = lastElem;
+                    if (initE) {
+                        initElem = elem_new(x, dense_matrix[(y * height) + x]);
+                        lastElem = initElem;
+                        initE = 0;
+                        lastRow->elems = initElem;
+                    } else {
+                        Elem *newElem = elem_new(x, dense_matrix[(y * height) + x]);
+                        lastElem->next = newElem;
+                        lastElem = newElem;
                     }
-                    lastRow->elems = lastElem;
                 }
             }
-                hasElem = initE = 0;
+                hasElem = 0;
+                initE = 1;
             }
     }
     return initRow;
@@ -104,6 +114,9 @@ void free_sparse(Row *sparse) {
         Row *rtemp = currRow;
         currRow = currRow->next;
         free(rtemp);
+        if (currRow) {
+            currElem = currRow->elems;
+        }
     }
 }
 
