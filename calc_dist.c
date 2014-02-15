@@ -73,23 +73,6 @@ int test_position_after_translation(int template_pos, int x_offset, int y_offset
     return resulting_position;
 }
 
-// /** Returns an int array [x,y] where x is the row and y is the col of the pixel
-//   * at ARRAYINDEX. This refers to a Matrix that is of size R x C. */
-// int *get_XY(int arrayIndex, int r, int c)
-// {
-//     int colPosition = arrayIndex / c;
-//     int rowPosition = arrayIndex / r;
-//     return 0;
-//     //not implemented
-// }
-
-// /** Returns the array index of the point [x,y] in a Matrix of size R x C. */
-// int get_arrayIndex(int *XY, int r, int c)
-// {
-//     return 0;
-//     //not implemented
-// }
-
 /** Returns the minimum value in the array ARR of size SIZE. */
 int min(int *arr, int size)
 {
@@ -200,13 +183,8 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
             //back to normal orientation
             rotate_ccw_90(template, t_width);
             // add the euclidean distance acheived from flipping template and applying to image
-            // flip_horizontal(template, t_width);
-            // distanceArr[index] = complex_euclidean_dist(image, template, t_width, offset_x, offset_y, i_width);
-            // index++;
-            // flip_horizontal(template, t_width);
-            // int horflipdist = flip_horizontal_dist(image, template, t_width, offset_x, offset_y, i_width);
-            // distanceArr[index] = flip_horizontal_dist(image, template, t_width, offset_x, offset_y, i_width);
-            // index++;
+            distanceArr[index] = flip_horizontal_dist(image, template, t_width, offset_x, offset_y, i_width);
+            index++;
             // distanceArr[index] = flip_vertical_dist(image, template, t_width, offset_x, offset_y, i_width);
             // index++; 
             // may have something to do with the fact that flip and rotate only work for square images
