@@ -65,76 +65,32 @@ void flip_vertical(unsigned char *arr, int width)
     rotate_ccw_90(arr, width);
 }
 
-/** Returns the position of the corresponding index in TEST with offsets X_OFFSET and Y_OFFSET. */
-int test_position_after_translation(int template_pos, int x_offset, int y_offset, int temp_width, int test_width){
+/** Returns the position of the corresponding index in TEST with
+ * offsets X_OFFSET and Y_OFFSET. */
+int test_position_after_translation(int template_pos, int x_offset, 
+        int y_offset, int temp_width, int test_width){
     int numRows = template_pos/temp_width;
-    int resulting_position = template_pos + (test_width - temp_width)*numRows + x_offset 
-                + (y_offset * test_width);
+    int resulting_position = template_pos + (test_width - temp_width)*numRows
+        + x_offset + (y_offset * test_width);
     return resulting_position;
 }
 
-/** Returns the minimum value in the array ARR of size SIZE. */
-int min(int *arr, int size)
-{
-    int min_val = UINT_MAX;
-    for (int i = 0; i < size; i ++) {
-        if (arr[i] < min_val) {
-            min_val = arr[i];
-        }
-    }
-    return min_val;
-}
-
-/** Computes the simplest case of the Euclidean distance between TEMPLATE and IMAGE.
-  * Will be used to compare other transformed images to templates.
-  * Assumes both images are square. */
-int simple_euclidean_dist(unsigned char *image, unsigned char *template, int width)
-{
+/** Computes the Euclidean distance between TEMPLATE and IMAGE with
+ * an X_OFFSET and Y_OFFSET in pixels. Will be used to compare other 
+ * transformed images to templates.
+ * Assumes both images are square. */
+int complex_euclidean_dist(unsigned char *image, unsigned char *template,
+        int temp_width, int x_offset, int y_offset, int test_width) {
     int e_distance = 0;
-    int temp_size = width * width;
-    for (int p = 0; p < temp_size; p++) { // this loop assumes both images are square
-        char a_val = image[p];
-        char b_val = template[p];
-        e_distance += (a_val - b_val) * (a_val - b_val);
-    }
-    return e_distance;
-}
-
-/** Computes the Euclidean distance between TEMPLATE and IMAGE with an X_OFFSET and Y_OFFSET
-  * in pixels. Will be used to compare other transformed images to templates.
-  * Assumes both images are square. */
-int complex_euclidean_dist(unsigned char *image, unsigned char *template, int width, int x_offset_x, int y_offset_y, int test_width)
-{
-    int e_distance = 0;
-    int temp_size = width * width;
+    int temp_size = temp_width * temp_width;
     for (int p = 0; p < temp_size; p++) {
-        int translated_position = test_position_after_translation(p, x_offset_x, y_offset_y, width, test_width);
-        if(x_offset_x == 0 && y_offset_y == 0){translated_position = p;}
+        int translated_position = test_position_after_translation(p, x_offset, 
+                y_offset, temp_width, test_width);
         char a_val = image[translated_position];
         char b_val = template[p];
         e_distance += (a_val - b_val) * (a_val - b_val);
     }
     return e_distance;
-}
-
-/** Returns the sq Euclidean distance between TEMPLATE and IMAGE. First flips the
-  * images horizontally. (x = -x) */
-int flip_horizontal_dist(unsigned char *image, unsigned char *template, int width, int x_offset, int y_offset, int test_width)
-{
-    flip_horizontal(template, width);
-    int ans = complex_euclidean_dist(image, template, width, x_offset, y_offset, test_width);
-    flip_horizontal(template, width);
-    return ans;
-}
-
-/** Returns the sq Euclidean distance between TEMPLATE and IMAGE. First flips the
-  * images vertically. (y = -y) */
-int flip_vertical_dist(unsigned char *image, unsigned char *template, int template_width, int x_offset, int y_offset, int test_image_width)
-{
-    flip_vertical(template, template_width);
-    int ans = complex_euclidean_dist(image, template, template_width, x_offset, y_offset, test_image_width);
-    flip_vertical(template, template_width);
-    return ans;
 }
 
 /* Returns the squared Euclidean distance between TEMPLATE and IMAGE. The size of IMAGE
@@ -154,50 +110,49 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
     int excess_x = i_width - t_width;
     int excess_y = i_height - t_width;
     //inits an array of max values supposed to be the size of things tested.;
-    int ARRAYSIZE = ((excess_y * excess_x) + 1) * 8;
+    int ARRAYSIZE = ((excess_y + 1) * (excess_x + 1) * 8);
     unsigned int distanceArr[ARRAYSIZE];
     for (int i = 0; i < ARRAYSIZE; i++) {
         distanceArr[i] = UINT_MAX;
     }
-    // These loops of 'i' and 'j' will cycle through all pixels
-    for (int i = 0; i <= excess_x; i++) {
-        int offset_x = i; /*i * i_width;*/
-        for (int j = 0; j <= excess_y; j++) {
-            int offset_y = j; /*i * i_height;*/
-            
-            distanceArr[index] = complex_euclidean_dist(image, template, t_width, offset_x, offset_y, i_width);
+    //checks the edistance of 8 distinct pics and then translates left.
+    for (int i = 0; i <= excess_y; i++) {
+        int y_offset = i;
+        for (int j = 0; j <= excess_x; j++) {
+            int x_offset = j;
+            //normal
+            distanceArr[index] = complex_euclidean_dist(image, template, t_width,
+                    x_offset, y_offset, i_width);
             index++;
-            // checks rotation each rotation ccw.
-            for (; index < 4; index++) {
+            //check rotations
+            for (; index % 4 != 0; index++) {
                 rotate_ccw_90(template, t_width);
-                for (int q = 0; q < temp_size; q++) {
-                    // char a_val = image[q];
-                    int trans_pos = test_position_after_translation(q, offset_x, offset_y, t_width, i_width);
-                    char a_val = image[trans_pos];
-                    char b_val = template[q];
-                    e_distance += (a_val - b_val) * (a_val - b_val);
-                }
-                distanceArr[index] = e_distance;
-                e_distance = 0;
+                distanceArr[index] = complex_euclidean_dist(image, template, t_width,
+                    x_offset, y_offset, i_width);
             }
-            //back to normal orientation
+            //rotate back to normal
             rotate_ccw_90(template, t_width);
-            // add the euclidean distance acheived from flipping template and applying to image
-            distanceArr[index] = flip_horizontal_dist(image, template, t_width, offset_x, offset_y, i_width);
+            //check flipped rotation
+            flip_horizontal(template, t_width);
+            distanceArr[index] = complex_euclidean_dist(image, template, t_width,
+                    x_offset, y_offset, i_width);
             index++;
-            distanceArr[index] = flip_vertical_dist(image, template, t_width, offset_x, offset_y, i_width);
-            index++; 
-            // may have something to do with the fact that flip and rotate only work for square images
+            for (; index % 4 != 0; index++) {
+                rotate_ccw_90(template, t_width);
+                distanceArr[index] = complex_euclidean_dist(image, template, t_width,
+                    x_offset, y_offset, i_width);
+            }
+            rotate_ccw_90(template, t_width);
+            // flip back to normal
+            flip_horizontal(template, t_width);
         }
     }
-    //looks for the minimum, it doesn't seem like the function i made works though
-    // int minimum = min(distanceArr, ARRAYSIZE);
+    //looks for the minimum
     for (int r = 0; r < ARRAYSIZE; r++) {
         if (distanceArr[r] < min_dist) {
             min_dist = distanceArr[r];
         }
     }
-    //murrrr
-    //still must do translations.
     return min_dist;
 }
+
