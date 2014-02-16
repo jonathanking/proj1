@@ -125,10 +125,11 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
                     x_offset, y_offset, i_width);
             index++;
             //check rotations
-            for (; index % 4 != 0; index++) {
+            for (int x = 0; x < 3; x++/*; index % 4 != 0; index++*/) {
                 rotate_ccw_90(template, t_width);
                 distanceArr[index] = complex_euclidean_dist(image, template, t_width,
                     x_offset, y_offset, i_width);
+                index++;
             }
             //rotate back to normal
             rotate_ccw_90(template, t_width);
@@ -137,10 +138,11 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
             distanceArr[index] = complex_euclidean_dist(image, template, t_width,
                     x_offset, y_offset, i_width);
             index++;
-            for (; index % 4 != 0; index++) {
+            for (int x = 0; x < 3; x++/*; index % 4 != 0; index++*/) {
                 rotate_ccw_90(template, t_width);
                 distanceArr[index] = complex_euclidean_dist(image, template, t_width,
                     x_offset, y_offset, i_width);
+                index++;
             }
             rotate_ccw_90(template, t_width);
             // flip back to normal
