@@ -1,12 +1,13 @@
-Partner 1 name:
-Partner 1 login:
-Partner 2 name:
-Partner 2 login:
+Partner 1 name: Vivian T. Nguyen
+Partner 1 login: cs61c-ix
+Partner 2 name: Jonathan E. King
+Partner 2 login: cs61c-iv
 
 CS61C Spring 2014 Project 1 Task A Writeup
 
 1. For each of the test image provided in advanced_tests/, which images are not recognized correctly?
 
+// need to fix bugs in calc_dist.c first, then run them against advanced tests
 
 
 
