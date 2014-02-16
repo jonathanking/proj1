@@ -55,7 +55,7 @@ void test_sparse(char *filename, Row *sparse_matrix)
         int items[] = {7, -1, -2};
         printf("Result of theres_a_seven_in_there is %s\n", check_sparse(sparse_matrix, items, 3) == 1 ? "correct" : "incorrect");
     } else if (strcmp(filename, "skips_middle_line") == 0) {
-        int items[] = {1, 2, 3, -1, 7, 8, 9, -1 - 2};
+        int items[] = {1, 2, 3, -1, 7, 8, 9, -1, - 2};
         printf("Result of skips_middle_line is %s\n", check_sparse(sparse_matrix, items, 13) == 1 ? "correct" : "incorrect");
     }
     //NOTE: -1: next row, -2: end of matrix
