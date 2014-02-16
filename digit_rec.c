@@ -64,6 +64,16 @@ void test_basic() {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
     };
 
+    unsigned char extreme_offcenter_translated[] = {
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x01, 0x02, 0x03, 0x00, 0x00, 0x00,
+        0x04, 0x05, 0x06, 0x00, 0x00, 0x00,
+        0x07, 0x08, 0x09, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    };
+
     printf("Performing basic tests.\n");
     check_distance(calc_min_dist(template, 3, 3, template, 3), 0);
     check_distance(calc_min_dist(translated, 5, 4, template, 3), 1);
@@ -72,6 +82,7 @@ void test_basic() {
     check_distance(calc_min_dist(flip_y_axis, 3, 3, template, 3), 4);
     check_distance(calc_min_dist(center_translated, 7, 7, template, 3), 5);
     check_distance(calc_min_dist(offcenter_translated, 7, 7, template, 3), 6);
+    check_distance(calc_min_dist(extreme_offcenter_translated, 6, 7, template, 3), 7);
 }
 
 /* Loads and tests a .BMP file. */
