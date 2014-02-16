@@ -18,6 +18,8 @@ void check_distance(unsigned int distance, int test_id) {
         case 5: printf("Testing with image translated to center...%s\n", distance==0?"passed":"failed"); break;
         case 6: printf("Testing with image translated to left-of-center...%s\n", distance==0?"passed":"failed"); break;
         case 7: printf("Testing with image translated to extreme left-of-center...%s\n", distance==0?"passed":"failed"); break;
+        case 8: printf("Testing with image translated left-of-center and vertflipped...%s\n", distance==0?"passed":"failed"); break;
+        case 9: printf("Testing with '5' translated left-of-center...%s\n", distance==0?"passed":"failed"); break;
 
         default: printf("Unrecongized test"); return;
     }
