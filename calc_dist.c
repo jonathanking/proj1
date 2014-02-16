@@ -154,7 +154,7 @@ unsigned int calc_min_dist(unsigned char *image, int i_width, int i_height,
     int excess_x = i_width - t_width;
     int excess_y = i_height - t_width;
     //inits an array of max values supposed to be the size of things tested.;
-    int ARRAYSIZE = (excess_y * excess_x) * 8;
+    int ARRAYSIZE = ((excess_y * excess_x) + 1) * 8;
     unsigned int distanceArr[ARRAYSIZE];
     for (int i = 0; i < ARRAYSIZE; i++) {
         distanceArr[i] = UINT_MAX;
