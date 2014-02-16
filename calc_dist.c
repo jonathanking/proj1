@@ -79,9 +79,9 @@ int test_position_after_translation(int template_pos, int x_offset,
  * an X_OFFSET and Y_OFFSET in pixels. Will be used to compare other 
  * transformed images to templates.
  * Assumes both images are square. */
-int complex_euclidean_dist(unsigned char *image, unsigned char *template,
+unsigned int complex_euclidean_dist(unsigned char *image, unsigned char *template,
         int temp_width, int x_offset, int y_offset, int test_width) {
-    int e_distance = 0;
+    unsigned int e_distance = 0;
     int temp_size = temp_width * temp_width;
     for (int p = 0; p < temp_size; p++) {
         int translated_position = test_position_after_translation(p, x_offset, 
