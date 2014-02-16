@@ -6,10 +6,7 @@ Partner 2 login: cs61c-iv
 CS61C Spring 2014 Project 1 Task A Writeup
 
 1. For each of the test image provided in advanced_tests/, which images are not recognized correctly?
-
-// need to fix bugs in calc_dist.c first, then run them against advanced tests
-
-
+The images sans_serif_5, serif_5, and serif_8 are not recognized correctly.
 
 
 
@@ -19,7 +16,5 @@ CS61C Spring 2014 Project 1 Task A Writeup
 
 
 
-
-
-
 3. Give a one to two sentence explanation on why you think the images mentioned above are recognized incorrectly.
+It seems as though the images fail to be recognized because they deviate considerably from their templates. In fact, when analyzed, other numeral templates match the test images more closely! (Lesson learned: Comic Sans is the way to go.)

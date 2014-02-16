@@ -15,6 +15,9 @@ void check_distance(unsigned int distance, int test_id) {
         case 2: printf("Testing with rotated image...%s\n", distance==0?"passed":"failed"); break;
         case 3: printf("Testing with image flipped across x-axis...%s\n", distance==0?"passed":"failed"); break;
         case 4: printf("Testing with image flipped across y-axis...%s\n", distance==0?"passed":"failed"); break;
+        case 5: printf("Testing with image translated to center...%s\n", distance==0?"passed":"failed"); break;
+        case 6: printf("Testing with image translated to left-of-center...%s\n", distance==0?"passed":"failed"); break;
+
         default: printf("Unrecongized test"); return;
     }
 }
