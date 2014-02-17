@@ -6,15 +6,18 @@ Partner 2 login: cs61c-iv
 CS61C Spring 2014 Project 1 Task A Writeup
 
 1. For each of the test image provided in advanced_tests/, which images are not recognized correctly?
-The images sans_serif_5, serif_5, and serif_8 are not recognized correctly.
+
+The images sans_serif_5, serif_5, and serif_8 are not recognized correctly. There was an error in our code, though, and after discussing it with our peers, it was clear that these three images were the source of the problem.
 
 
 
 
 2. For each test image listed in the previous question, What is the difference in "digit distances" between the recognized digit and the digit it is supposed to be (e.g. if a digit 3 is recognized as 8, and 3 has a "digit distance" of 10 while 8 has a "digit distance" of 20, then difference in distances is 20 - 10 = 10).
 
+Due to a bug in our code that prevents us from correctly displaying/calculating euclidean distances for the advanced tests, I am unable to answer this question meaningfully.
 
 
 
 3. Give a one to two sentence explanation on why you think the images mentioned above are recognized incorrectly.
-It seems as though the images fail to be recognized because they deviate considerably from their templates. In fact, when analyzed, other numeral templates match the test images more closely! (Lesson learned: Comic Sans is the way to go.)
+
+It seems as though the images would fail to be recognized because they deviate considerably from their templates. In fact, when analyzed, other numeral templates would match the test images more closely because of their similar shapes! (Lesson learned: Comic Sans is the way to go.)
